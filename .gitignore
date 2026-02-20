@@ -1,13 +1,47 @@
-.idea/
-.venv/
+# Python
 __pycache__/
-*.pyc
-
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfplan
-crash.log
-
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+*.egg-info/
 dist/
 build/
+.pytest_cache/
+.ruff_cache/
+.pyright/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+localstack_providers_override.tf
+
+# LocalStack
+.localstack/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code
+.claude/settings.local.json
+
+# Coverage
+.coverage
+
+# OS
+.DS_Store
+Thumbs.db
