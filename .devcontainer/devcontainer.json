@@ -10,7 +10,7 @@
     "ghcr.io/devcontainers/features/aws-cli:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "containerEnv": {
+  "remoteEnv": {
     "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}"
   },
   "postCreateCommand": "bash -lc 'curl -LsSf https://astral.sh/uv/install.sh | sh && ~/.local/bin/uv sync --group dev && printf \"#!/usr/bin/env bash\\nuv run awslocal \\\"$@\\\"\\n\" | sudo tee /usr/local/bin/awslocal >/dev/null && sudo chmod +x /usr/local/bin/awslocal && printf \"#!/usr/bin/env bash\\nuv run tflocal \\\"$@\\\"\\n\" | sudo tee /usr/local/bin/tflocal >/dev/null && sudo chmod +x /usr/local/bin/tflocal'",
