@@ -1,0 +1,28 @@
+{
+  "name": "iac-learn",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "workspace",
+  "workspaceFolder": "/workspaces/iac-learn",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "containerEnv": {
+    "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}"
+  },
+  "postCreateCommand": "bash -lc 'curl -LsSf https://astral.sh/uv/install.sh | sh && ~/.local/bin/uv sync --group dev && printf \"#!/usr/bin/env bash\\nuv run awslocal \\\"$@\\\"\\n\" | sudo tee /usr/local/bin/awslocal >/dev/null && sudo chmod +x /usr/local/bin/awslocal && printf \"#!/usr/bin/env bash\\nuv run tflocal \\\"$@\\\"\\n\" | sudo tee /usr/local/bin/tflocal >/dev/null && sudo chmod +x /usr/local/bin/tflocal'",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
+      },
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-python.python"
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.idea/
+.venv/
+__pycache__/
+*.pyc
+
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+dist/
+build/
