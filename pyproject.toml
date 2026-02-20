@@ -8,5 +8,8 @@ dependencies = []
 [dependency-groups]
 dev = [
   "awscli-local>=0.22.2",
+  "pyright>=1.1.408",
+  "pytest>=9.0.2",
+  "ruff>=0.15.2",
   "terraform-local>=0.11.1",
 ]
