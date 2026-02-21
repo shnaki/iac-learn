@@ -74,6 +74,54 @@ terraform validate
 terraform apply -auto-approve
 ```
 
+## CloudFormation
+
+Terraform とほぼ同等の構成を `cloudformation/` 配下に用意しています。
+構成は root stack + nested stacks（`network`/`lambda`/`ecs-fargate`/`stepfunctions`）です。
+
+### 1. 事前準備
+
+- Lambda ZIP を作成して S3 に配置する
+- Fargate イメージを事前にビルド・Push する
+- `cloudformation/` 配下テンプレートを S3 に配置する
+
+例:
+
+```bash
+aws s3 cp cloudformation/root.yaml s3://<template-bucket>/cloudformation/root.yaml
+aws s3 cp cloudformation/stacks/network.yaml s3://<template-bucket>/cloudformation/stacks/network.yaml
+aws s3 cp cloudformation/stacks/lambda.yaml s3://<template-bucket>/cloudformation/stacks/lambda.yaml
+aws s3 cp cloudformation/stacks/ecs-fargate.yaml s3://<template-bucket>/cloudformation/stacks/ecs-fargate.yaml
+aws s3 cp cloudformation/stacks/stepfunctions.yaml s3://<template-bucket>/cloudformation/stacks/stepfunctions.yaml
+```
+
+### 2. パラメータファイル作成
+
+- 本番向け: `cloudformation/params/prod.example.json`
+- ローカル検証向け: `cloudformation/params/local.example.json`
+
+必要な値（`TemplateBaseUrl`、Lambda ZIP の S3 情報、`ContainerImageUri`）を実値に変更してください。
+
+### 3. 静的検証
+
+```bash
+aws cloudformation validate-template --template-body file://cloudformation/root.yaml
+aws cloudformation validate-template --template-body file://cloudformation/stacks/network.yaml
+aws cloudformation validate-template --template-body file://cloudformation/stacks/lambda.yaml
+aws cloudformation validate-template --template-body file://cloudformation/stacks/ecs-fargate.yaml
+aws cloudformation validate-template --template-body file://cloudformation/stacks/stepfunctions.yaml
+```
+
+### 4. デプロイ例（AWS）
+
+```bash
+aws cloudformation create-stack \
+  --stack-name iac-learn \
+  --template-body file://cloudformation/root.yaml \
+  --parameters file://cloudformation/params/prod.example.json \
+  --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND
+```
+
 ## Step Functions 実行確認 (LocalStack)
 
 `terraform apply` 後に出力された State Machine ARN を使って実行します。
