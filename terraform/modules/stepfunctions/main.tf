@@ -74,7 +74,7 @@ resource "aws_sfn_state_machine" "this" {
         Resource = "arn:aws:states:::lambda:invoke"
         Parameters = {
           FunctionName = var.lambda_arn
-          Payload.$    = "$"
+          "Payload.$"  = "$"
         }
         Next = "RunFargateTask"
       }
