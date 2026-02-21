@@ -42,6 +42,9 @@ localstack_providers_override.tf
 # Coverage
 .coverage
 
+# Build artifacts
+**/.build/
+
 # OS
 .DS_Store
 Thumbs.db
