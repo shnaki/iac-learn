@@ -1,11 +1,14 @@
 services:
   workspace:
     image: mcr.microsoft.com/devcontainers/base:ubuntu
-    container_name: iac-learn-workspace
     command: sleep infinity
     working_dir: /workspaces/iac-learn
     volumes:
       - ..:/workspaces/iac-learn
       - /var/run/docker.sock:/var/run/docker.sock
-    extra_hosts:
-      - "localstack:host-gateway"
+    networks:
+      - iac-learn-infra_default
+
+networks:
+  iac-learn-infra_default:
+    external: true

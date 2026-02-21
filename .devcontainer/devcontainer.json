@@ -1,24 +1,44 @@
 {
   "name": "iac-learn",
-  "dockerComposeFile": ["docker-compose.workspace.yml"],
+  "dockerComposeFile": [
+    "docker-compose.workspace.yml"
+  ],
   "service": "workspace",
   "workspaceFolder": "/workspaces/iac-learn",
-  "initializeCommand": "docker compose -f ${localWorkspaceFolder}/docker-compose.yml up -d localstack",
+  "initializeCommand": [
+    "docker",
+    "compose",
+    "-p",
+    "iac-learn-infra",
+    "-f",
+    "docker-compose.yml",
+    "up",
+    "-d",
+    "--wait"
+  ],
   "features": {
     "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/devcontainers/features/aws-cli:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "remoteEnv": {
-    "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}"
+    "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}",
+    "LOCALSTACK_HOST": "localstack:4566",
+    "LOCALSTACK_HOSTNAME": "localstack",
+    "TF_VAR_localstack_endpoint": "http://localstack:4566",
+    "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv",
+    "LOCALSTACK_AUTH_TOKEN": "${localEnv:LOCALSTACK_AUTH_TOKEN}"
   },
-  "postCreateCommand": "bash -lc 'curl -LsSf https://astral.sh/uv/install.sh | sh && ~/.local/bin/uv sync --group dev && printf \"#!/usr/bin/env bash\\nuv run awslocal \\\"$@\\\"\\n\" | sudo tee /usr/local/bin/awslocal >/dev/null && sudo chmod +x /usr/local/bin/awslocal && printf \"#!/usr/bin/env bash\\nuv run tflocal \\\"$@\\\"\\n\" | sudo tee /usr/local/bin/tflocal >/dev/null && sudo chmod +x /usr/local/bin/tflocal'",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
       "settings": {
-        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
       },
-      "extensions": ["hashicorp.terraform", "ms-python.python"]
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-python.python"
+      ]
     }
   }
 }

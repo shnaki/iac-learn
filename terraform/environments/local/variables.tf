@@ -10,7 +10,7 @@ variable "aws_region" {
 
 variable "localstack_endpoint" {
   type    = string
-  default = "http://localstack:4566"
+  default = "http://localhost:4566"
 }
 
 variable "fargate_image" {

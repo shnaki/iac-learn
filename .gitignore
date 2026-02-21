@@ -30,6 +30,10 @@ localstack_providers_override.tf
 # LocalStack
 .localstack/
 
+# Secrets
+.env
+terraform/environments/prod/terraform.tfvars
+
 # IDE
 .idea/
 .vscode/
@@ -41,6 +45,9 @@ localstack_providers_override.tf
 
 # Coverage
 .coverage
+
+# Build artifacts
+**/.build/
 
 # OS
 .DS_Store
