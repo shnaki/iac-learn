@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Root stack for iac-learn infrastructure.
+
+Parameters:
+  TemplateBaseUrl:
+    Type: String
+    Description: Base URL where nested templates are hosted (without trailing slash).
+  ProjectName:
+    Type: String
+    Default: iac-learn
+  AwsRegion:
+    Type: String
+    Default: ap-northeast-1
+  VpcCidr:
+    Type: String
+    Default: 10.10.0.0/16
+  SubnetCidr:
+    Type: String
+    Default: 10.10.1.0/24
+  LambdaFunctionName:
+    Type: String
+    Default: iac-learn-hello-lambda
+  LambdaRuntime:
+    Type: String
+    Default: python3.12
+  LambdaHandler:
+    Type: String
+    Default: handler.handler
+  LambdaCodeS3Bucket:
+    Type: String
+  LambdaCodeS3Key:
+    Type: String
+  LambdaCodeS3ObjectVersion:
+    Type: String
+    Default: ''
+  TaskFamily:
+    Type: String
+    Default: iac-learn-hello-fargate
+  ContainerName:
+    Type: String
+    Default: hello-fargate
+  ContainerImageUri:
+    Type: String
+
+Resources:
+  NetworkStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub ${TemplateBaseUrl}/stacks/network.yaml
+      Parameters:
+        ProjectName: !Ref ProjectName
+        VpcCidr: !Ref VpcCidr
+        SubnetCidr: !Ref SubnetCidr
+
+  LambdaStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub ${TemplateBaseUrl}/stacks/lambda.yaml
+      Parameters:
+        ProjectName: !Ref ProjectName
+        FunctionName: !Ref LambdaFunctionName
+        Runtime: !Ref LambdaRuntime
+        Handler: !Ref LambdaHandler
+        CodeS3Bucket: !Ref LambdaCodeS3Bucket
+        CodeS3Key: !Ref LambdaCodeS3Key
+        CodeS3ObjectVersion: !Ref LambdaCodeS3ObjectVersion
+
+  EcsFargateStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub ${TemplateBaseUrl}/stacks/ecs-fargate.yaml
+      Parameters:
+        ProjectName: !Ref ProjectName
+        AwsRegion: !Ref AwsRegion
+        TaskFamily: !Ref TaskFamily
+        ContainerName: !Ref ContainerName
+        ContainerImage: !Ref ContainerImageUri
+
+  StepFunctionsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub ${TemplateBaseUrl}/stacks/stepfunctions.yaml
+      Parameters:
+        ProjectName: !Ref ProjectName
+        LambdaArn: !GetAtt LambdaStack.Outputs.FunctionArn
+        ClusterArn: !GetAtt EcsFargateStack.Outputs.ClusterArn
+        TaskDefinitionArn: !GetAtt EcsFargateStack.Outputs.TaskDefinitionArn
+        SubnetIds: !GetAtt NetworkStack.Outputs.SubnetIdsCsv
+        SecurityGroupIds: !GetAtt NetworkStack.Outputs.SecurityGroupIdsCsv
+        EcsExecutionRoleArn: !GetAtt EcsFargateStack.Outputs.ExecutionRoleArn
+        EcsTaskRoleArn: !GetAtt EcsFargateStack.Outputs.TaskRoleArn
+
+Outputs:
+  LambdaArn:
+    Value: !GetAtt LambdaStack.Outputs.FunctionArn
+  EcsClusterArn:
+    Value: !GetAtt EcsFargateStack.Outputs.ClusterArn
+  EcsTaskDefinitionArn:
+    Value: !GetAtt EcsFargateStack.Outputs.TaskDefinitionArn
+  StepFunctionsStateMachineArn:
+    Value: !GetAtt StepFunctionsStack.Outputs.StateMachineArn

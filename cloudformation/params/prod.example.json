@@ -1,0 +1,15 @@
+[
+  { "ParameterKey": "TemplateBaseUrl", "ParameterValue": "https://<bucket>.s3.<region>.amazonaws.com/cloudformation" },
+  { "ParameterKey": "ProjectName", "ParameterValue": "iac-learn" },
+  { "ParameterKey": "AwsRegion", "ParameterValue": "ap-northeast-1" },
+  { "ParameterKey": "VpcCidr", "ParameterValue": "10.10.0.0/16" },
+  { "ParameterKey": "SubnetCidr", "ParameterValue": "10.10.1.0/24" },
+  { "ParameterKey": "LambdaFunctionName", "ParameterValue": "iac-learn-hello-lambda" },
+  { "ParameterKey": "LambdaRuntime", "ParameterValue": "python3.12" },
+  { "ParameterKey": "LambdaHandler", "ParameterValue": "handler.handler" },
+  { "ParameterKey": "LambdaCodeS3Bucket", "ParameterValue": "<artifact-bucket>" },
+  { "ParameterKey": "LambdaCodeS3Key", "ParameterValue": "lambda/hello-lambda.zip" },
+  { "ParameterKey": "TaskFamily", "ParameterValue": "iac-learn-hello-fargate" },
+  { "ParameterKey": "ContainerName", "ParameterValue": "hello-fargate" },
+  { "ParameterKey": "ContainerImageUri", "ParameterValue": "<account-id>.dkr.ecr.ap-northeast-1.amazonaws.com/iac-learn-fargate:latest" }
+]

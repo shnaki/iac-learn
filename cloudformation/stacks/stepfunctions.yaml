@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step Functions resources for iac-learn.
+
+Parameters:
+  ProjectName:
+    Type: String
+  LambdaArn:
+    Type: String
+  ClusterArn:
+    Type: String
+  TaskDefinitionArn:
+    Type: String
+  SubnetIds:
+    Type: CommaDelimitedList
+  SecurityGroupIds:
+    Type: CommaDelimitedList
+  EcsExecutionRoleArn:
+    Type: String
+  EcsTaskRoleArn:
+    Type: String
+
+Resources:
+  StateMachineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${ProjectName}-sfn-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: !Sub "${ProjectName}-sfn-policy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource:
+                  - !Ref LambdaArn
+                  - !Sub "${LambdaArn}:*"
+              - Effect: Allow
+                Action:
+                  - ecs:RunTask
+                Resource:
+                  - !Ref TaskDefinitionArn
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource:
+                  - !Ref EcsExecutionRoleArn
+                  - !Ref EcsTaskRoleArn
+              - Effect: Allow
+                Action:
+                  - events:PutTargets
+                  - events:PutRule
+                  - events:DescribeRule
+                Resource:
+                  - arn:aws:events:*:*:rule/StepFunctionsGetEventsForECSTaskRule
+
+  StateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      StateMachineName: !Sub "${ProjectName}-workflow"
+      RoleArn: !GetAtt StateMachineRole.Arn
+      Definition:
+        Comment: Hello workflow for Lambda and Fargate
+        StartAt: InvokeLambda
+        States:
+          InvokeLambda:
+            Type: Task
+            Resource: arn:aws:states:::lambda:invoke
+            Parameters:
+              FunctionName: !Ref LambdaArn
+              Payload.$: $
+            Next: RunFargateTask
+          RunFargateTask:
+            Type: Task
+            Resource: arn:aws:states:::ecs:runTask.sync
+            Parameters:
+              LaunchType: FARGATE
+              Cluster: !Ref ClusterArn
+              TaskDefinition: !Ref TaskDefinitionArn
+              NetworkConfiguration:
+                AwsvpcConfiguration:
+                  Subnets: !Ref SubnetIds
+                  SecurityGroups: !Ref SecurityGroupIds
+                  AssignPublicIp: ENABLED
+            End: true
+
+Outputs:
+  StateMachineArn:
+    Value: !Ref StateMachine
