@@ -41,6 +41,14 @@ docker compose down
 - `awslocal`（`scripts/awslocal` ラッパ）
 - `tflocal`（`scripts/tflocal` ラッパ）
 
+## 品質チェック
+
+```bash
+uv run --frozen pytest
+uv run --frozen ruff check .
+uv run --frozen pyright
+```
+
 ## Fargate イメージのビルド
 
 LocalStack 検証用イメージを作成します。
@@ -50,6 +58,8 @@ docker build -t iac-learn/fargate:local -f src/fargate/Dockerfile .
 ```
 
 ## Terraform (LocalStack)
+
+Terraform のバージョンとプロバイダー要件は `versions.tf` に分離しています。
 
 ```bash
 cd terraform/environments/local
