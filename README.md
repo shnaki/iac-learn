@@ -17,11 +17,22 @@ Terraform + LocalStack + Python で、Lambda / Fargate / Step Functions を学�
 
 ## 開発環境の起動
 
+LocalStack は Dev Container 起動時に自動で起動されます。
+手動で起動する場合は以下を実行してください。
+
 ```bash
-docker compose up -d
+docker compose up -d localstack
 ```
 
 Dev Container を開くと `postCreateCommand` で `uv` がインストールされ、dev 依存が同期されます。
+Dev Container を終了しても LocalStack コンテナは動作し続けます。
+
+停止する場合:
+
+```bash
+docker compose stop localstack
+docker compose down
+```
 
 利用可能コマンド:
 

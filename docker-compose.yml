@@ -17,17 +17,5 @@ services:
       timeout: 5s
       retries: 10
 
-  workspace:
-    image: mcr.microsoft.com/devcontainers/base:ubuntu
-    container_name: iac-learn-workspace
-    command: sleep infinity
-    working_dir: /workspaces/iac-learn
-    volumes:
-      - .:/workspaces/iac-learn
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      localstack:
-        condition: service_healthy
-
 volumes:
   localstack-data:
