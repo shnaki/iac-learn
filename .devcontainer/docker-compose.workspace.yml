@@ -6,3 +6,9 @@ services:
     volumes:
       - ..:/workspaces/iac-learn
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - iac-learn-infra_default
+
+networks:
+  iac-learn-infra_default:
+    external: true
