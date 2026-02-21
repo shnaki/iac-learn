@@ -55,6 +55,31 @@ pre-commit でも同等のチェックを実行できます。
 uv run --frozen pre-commit run --all-files
 ```
 
+## コミットメッセージテンプレート
+
+Conventional Commits 形式のテンプレートを `.gitmessage` で管理しています。
+
+セットアップ:
+
+```bash
+git config commit.template .gitmessage
+```
+
+確認:
+
+```bash
+git config --get commit.template
+git commit
+```
+
+運用メモ:
+
+- 件名は `<type>(<scope>)?: <subject>` 形式
+- `subject` は簡潔な日本語で、原則として文末の句点なし
+- GitHub Issue は件名末尾 `#123` の併記は可、正式には `Github-Issue:#123` trailer を推奨
+- ユーザー報告由来の変更は `Reported-by:<name>` trailer を追加
+- `co-authored-by` やコミット作成ツールへの言及は記載しない
+
 ## Fargate イメージのビルド
 
 LocalStack 検証用イメージを作成します。
