@@ -8,6 +8,7 @@ dependencies = []
 [dependency-groups]
 dev = [
   "awscli-local>=0.22.2",
+  "pre-commit>=4.5.1",
   "pyright>=1.1.408",
   "pytest>=9.0.2",
   "pytest-cov>=7.0.0",

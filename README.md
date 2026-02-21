@@ -49,6 +49,12 @@ uv run --frozen ruff check .
 uv run --frozen pyright
 ```
 
+pre-commit でも同等のチェックを実行できます。
+
+```bash
+uv run --frozen pre-commit run --all-files
+```
+
 ## Fargate イメージのビルド
 
 LocalStack 検証用イメージを作成します。

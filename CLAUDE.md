@@ -16,7 +16,7 @@
    - 公開 API には docstring（ドキュメンテーション文字列）を必ず記述する
    - 関数は小さく、責務を絞る
    - 既存パターンに正確に従う
-   - 行長: 最大 120 文字
+   - 行長: 最大 88 文字（`pyproject.toml` の Ruff 設定に従う）
    - 禁止: 関数内 import。必ずファイル先頭に配置すること。
 
 3. テスト要件
@@ -26,8 +26,8 @@
    - カバレッジ: エッジケースとエラーをテストする
    - 新機能にはテストが必須
    - バグ修正にはリグレッションテスト（回帰テスト）が必須
-   - 重要: `tests/client/test_client.py` は最も設計の良いテストファイルです。そのパターンに従ってください。
-   - 重要: 最小限を心がけ、E2E テストを重視すること。可能な限り `mcp.client.Client` を使用してください。
+   - 重要: 既存の `tests/lambda/test_handler.py` と `tests/fargate/test_app.py` のテストスタイルに従ってください。
+   - 重要: 最小限を心がけ、I/O 境界（Lambda ハンドラ・アプリエントリポイント）を優先してテストしてください。
    - 重要: プッシュ前に、変更したファイルのブランチカバレッジ（branch coverage）が 100% であることを `uv run --frozen pytest -x` で確認してください（`pyproject.toml` で `fail_under = 100` と `branch = true` が設定されています）。未カバーの分岐がある場合は、プッシュ前に必ずテストを追加してください。
    - 非同期処理の待機に、固定時間の `anyio.sleep()` は避けてください。代わりに:
      - `anyio.Event` を使用する: コールバック/ハンドラで `set` し、テストでは `await event.wait()` する
@@ -35,7 +35,7 @@
      - 例外: 時間依存の機能（例: タイムアウト）をテストする場合は `sleep()` の使用が適切
    - 無期限待機（`event.wait()`、`stream.receive()`）はハング防止のため `anyio.fail_after(5)` で囲む
 
-テストファイルはソースツリーを反映します: `src/mcp/client/streamable_http.py` → `tests/client/test_streamable_http.py`  
+テストファイルはソースツリーを反映します（例: `src/lambda/handler.py` → `tests/lambda/test_handler.py`、`src/fargate/app.py` → `tests/fargate/test_app.py`）。
 対象モジュールの既存テストファイルにテストを追加してください。
 
 - ユーザー報告に基づくバグ修正や機能追加のコミットには、以下を追加:
