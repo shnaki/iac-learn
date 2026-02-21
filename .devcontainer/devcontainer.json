@@ -5,7 +5,17 @@
   ],
   "service": "workspace",
   "workspaceFolder": "/workspaces/iac-learn",
-  "initializeCommand": "docker compose -p iac-learn-infra -f docker-compose.yml up -d --wait",
+  "initializeCommand": [
+    "docker",
+    "compose",
+    "-p",
+    "iac-learn-infra",
+    "-f",
+    "docker-compose.yml",
+    "up",
+    "-d",
+    "--wait"
+  ],
   "features": {
     "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/devcontainers/features/aws-cli:1": {},
@@ -22,7 +32,10 @@
       "settings": {
         "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
       },
-      "extensions": ["hashicorp.terraform", "ms-python.python"]
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-python.python"
+      ]
     }
   }
 }
