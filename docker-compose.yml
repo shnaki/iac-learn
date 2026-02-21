@@ -8,6 +8,7 @@ services:
       - SERVICES=iam,lambda,logs,sts,ec2,ecs,ecr,stepfunctions,events
       - DEBUG=1
       - AWS_DEFAULT_REGION=ap-northeast-1
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
     volumes:
       - localstack-data:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock

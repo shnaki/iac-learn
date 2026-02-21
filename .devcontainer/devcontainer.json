@@ -25,7 +25,8 @@
     "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}",
     "LOCALSTACK_HOST": "host.docker.internal:4566",
     "LOCALSTACK_HOSTNAME": "host.docker.internal",
-    "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
+    "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv",
+    "LOCALSTACK_AUTH_TOKEN": "${localEnv:LOCALSTACK_AUTH_TOKEN}"
   },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
