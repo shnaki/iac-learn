@@ -26,16 +26,5 @@
     "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}",
     "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
   },
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
-      },
-      "extensions": [
-        "hashicorp.terraform",
-        "ms-python.python"
-      ]
-    }
-  }
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
 }
