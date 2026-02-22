@@ -35,3 +35,6 @@ export LOCALSTACK_HOST=localstack:4566
 export LOCALSTACK_HOSTNAME=localstack
 ENVEOF
 fi
+
+# Fix git dubious ownership inside container
+git config --global --add safe.directory /workspaces/iac-learn
