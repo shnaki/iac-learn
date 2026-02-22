@@ -4,6 +4,7 @@
     "../docker-compose.workspace.yml"
   ],
   "service": "workspace-vscode",
+  "runServices": ["workspace-vscode"],
   "workspaceFolder": "/workspaces/iac-learn",
   "initializeCommand": [
     "docker",
