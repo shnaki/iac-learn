@@ -13,33 +13,72 @@ Terraform + LocalStack + Python で、Lambda / Fargate / Step Functions を学�
 ## 前提
 
 - Docker / Docker Compose
-- Dev Containers 対応環境（VS Code など）
+- Dev Containers 対応 IDE（VS Code または JetBrains IDE）
 
 ## 開発環境の起動
 
-LocalStack は Dev Container 起動時に自動で起動されます。
-手動で起動する場合は以下を実行してください。
+### 1. 環境変数の設定
+
+`.env.example` をコピーして `.env` を作成します。
 
 ```bash
-docker compose up -d localstack
+cp .env.example .env
 ```
 
-Dev Container を開くと `postCreateCommand` で `uv` がインストールされ、dev 依存が同期されます。
+### 2. LocalStack エディションの選択
+
+`.env` を編集して使用するエディションを選択します。
+
+**通常版（Community）— デフォルト:**
+
+```dotenv
+LOCALSTACK_IMAGE=localstack/localstack:latest
+LOCALSTACK_AUTH_TOKEN=
+```
+
+**Pro 版:**
+
+```dotenv
+LOCALSTACK_IMAGE=localstack/localstack-pro:latest
+LOCALSTACK_AUTH_TOKEN=ls-xxxx-...   # LocalStack アカウントで発行したトークン
+```
+
+### 3. Dev Container を開く
+
+IDE で Dev Container を開くと `initializeCommand` が LocalStack を自動起動し、
+`postCreateCommand` で `uv` のインストールと依存同期が行われます。
+
+- **VS Code**: コマンドパレット → "Dev Containers: Open Folder in Container" → **"iac-learn (VS Code)"** を選択
+- **PyCharm / IntelliJ**: "Remote Development" → "Dev Containers" からプロジェクトを開く
+
 Dev Container を終了しても LocalStack コンテナは動作し続けます。
 
-停止する場合:
+### LocalStack の停止・削除
 
 ```bash
-docker compose stop localstack
-docker compose down
+docker compose -p iac-learn-infra -f docker-compose.yml down
 ```
 
-利用可能コマンド:
+### 通常版 ↔ Pro 版の切り替え
 
-- `terraform`
-- `aws`
-- `awslocal`（`scripts/awslocal` ラッパ）
-- `tflocal`（`scripts/tflocal` ラッパ）
+1. `.env` の `LOCALSTACK_IMAGE` と `LOCALSTACK_AUTH_TOKEN` を変更する
+2. LocalStack を入れ替える（`container_name` が固定のため先にコンテナを直接削除する）:
+   ```bash
+   docker rm -f iac-learn-localstack
+   docker compose -p iac-learn-infra -f docker-compose.yml up -d --wait
+   ```
+3. 各 IDE で Dev Container を **Rebuild** する（ワークスペースコンテナに新しい `LOCALSTACK_AUTH_TOKEN` を反映させるため）
+   - VS Code: コマンドパレット → "Dev Containers: Rebuild Container"
+   - PyCharm: "Dev Containers" パネルで "Rebuild"
+
+### 利用可能コマンド（Dev Container 内）
+
+| コマンド | 説明 |
+|---|---|
+| `terraform` | Terraform（`TF_VAR_localstack_endpoint` で LocalStack に接続） |
+| `tflocal` | terraform の LocalStack ラッパ |
+| `aws` | AWS CLI |
+| `awslocal` | aws の LocalStack ラッパ |
 
 ## 品質チェック
 

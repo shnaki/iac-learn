@@ -1,6 +1,6 @@
 services:
   localstack:
-    image: localstack/localstack:latest
+    image: ${LOCALSTACK_IMAGE:-localstack/localstack:latest}
     container_name: iac-learn-localstack
     ports:
       - "4566:4566"

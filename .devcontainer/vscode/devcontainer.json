@@ -1,10 +1,10 @@
 {
-  "name": "iac-learn",
+  "name": "iac-learn (VS Code)",
   "dockerComposeFile": [
-    "docker-compose.workspace.yml"
+    "../docker-compose.workspace.yml"
   ],
-  "service": "workspace",
-  "runServices": ["workspace"],
+  "service": "workspace-vscode",
+  "runServices": ["workspace-vscode"],
   "workspaceFolder": "/workspaces/iac-learn",
   "initializeCommand": [
     "docker",
@@ -26,5 +26,16 @@
     "PATH": "${containerWorkspaceFolder}/scripts:${containerEnv:PATH}",
     "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
   },
-  "postCreateCommand": "bash .devcontainer/post-create.sh"
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
+      },
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-python.python"
+      ]
+    }
+  }
 }
