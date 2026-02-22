@@ -1,13 +1,24 @@
+x-workspace: &workspace
+  image: mcr.microsoft.com/devcontainers/base:ubuntu
+  command: sleep infinity
+  working_dir: /workspaces/iac-learn
+  volumes:
+    - ..:/workspaces/iac-learn
+    - /var/run/docker.sock:/var/run/docker.sock
+  environment:
+    - TF_VAR_localstack_endpoint=http://localstack:4566
+    - LOCALSTACK_HOST=localstack:4566
+    - LOCALSTACK_HOSTNAME=localstack
+    - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN:-}
+  networks:
+    - iac-learn-infra_default
+
 services:
   workspace:
-    image: mcr.microsoft.com/devcontainers/base:ubuntu
-    command: sleep infinity
-    working_dir: /workspaces/iac-learn
-    volumes:
-      - ..:/workspaces/iac-learn
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - iac-learn-infra_default
+    <<: *workspace
+
+  workspace-vscode:
+    <<: *workspace
 
 networks:
   iac-learn-infra_default:

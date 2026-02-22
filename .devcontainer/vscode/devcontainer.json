@@ -1,9 +1,9 @@
 {
-  "name": "iac-learn",
+  "name": "iac-learn (VS Code)",
   "dockerComposeFile": [
-    "docker-compose.workspace.yml"
+    "../docker-compose.workspace.yml"
   ],
-  "service": "workspace",
+  "service": "workspace-vscode",
   "workspaceFolder": "/workspaces/iac-learn",
   "initializeCommand": [
     "docker",
