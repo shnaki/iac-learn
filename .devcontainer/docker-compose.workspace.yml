@@ -6,6 +6,7 @@ x-workspace: &workspace
     - ..:/workspaces/iac-learn
     - /var/run/docker.sock:/var/run/docker.sock
   environment:
+    - AWS_DEFAULT_REGION=ap-northeast-1
     - TF_VAR_localstack_endpoint=http://localstack:4566
     - LOCALSTACK_HOST=localstack:4566
     - LOCALSTACK_HOSTNAME=localstack
