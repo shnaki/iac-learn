@@ -90,6 +90,20 @@ uv run --frozen pyright
 
 pre-commit でも同等のチェックを実行できます。
 
+### Terraform フォーマット
+
+`.tf` ファイルを変更した場合は、コミット前に必ずフォーマッタを適用してください。
+
+```bash
+terraform fmt -recursive terraform/
+```
+
+確認のみ（変更しない）:
+
+```bash
+terraform fmt -check -recursive terraform/
+```
+
 ```bash
 uv run --frozen pre-commit run --all-files
 ```

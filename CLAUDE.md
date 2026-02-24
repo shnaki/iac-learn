@@ -122,6 +122,11 @@
      - 設定の `rev` を更新
      - 先に設定ファイルをコミット
 
+4. Terraform
+   - `.tf` ファイルを変更したら必ず `terraform fmt -recursive terraform/` を実行する
+   - 確認のみ: `terraform fmt -check -recursive terraform/`
+   - pre-commit には Terraform フォーマッタが含まれないため、手動実行が必要
+
 ## エラー解決
 
 1. CI 失敗
