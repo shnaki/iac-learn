@@ -1,7 +1,14 @@
 import os
 import socket
+from pathlib import Path
+from typing import Any
 
 import pytest
+import tftest  # type: ignore[import-untyped]
+
+_TERRAFORM_DIR = str(
+    Path(__file__).parent.parent.parent / "terraform" / "environments" / "local"
+)
 
 
 def _is_localstack_available() -> bool:
@@ -23,3 +30,13 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     skip_marker = pytest.mark.skip(reason="LocalStack が起動していません")
     for item in items:
         item.add_marker(skip_marker)
+
+
+@pytest.fixture(scope="session")
+def terraform_outputs() -> dict[str, Any]:
+    """Terraform の output を返す。CI では apply も実行する。"""
+    tf = tftest.TerraformTest(_TERRAFORM_DIR)
+    if os.environ.get("CI"):
+        tf.setup()
+        tf.apply()
+    return tf.output()  # type: ignore[no-any-return]

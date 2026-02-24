@@ -177,6 +177,7 @@ dev = [
     { name = "pytest-cov" },
     { name = "ruff" },
     { name = "terraform-local" },
+    { name = "tftest" },
 ]
 
 [package.metadata]
@@ -191,6 +192,7 @@ dev = [
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "ruff", specifier = ">=0.15.2" },
     { name = "terraform-local", specifier = ">=0.11.1" },
+    { name = "tftest", specifier = ">=1.8.5" },
 ]
 
 [[package]]
@@ -559,6 +561,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/48/30/3ca48aa0615960bc891c976512df7cca1ecf72535446f4bbe9b1ac110ebf/terraform_local-0.25.0.tar.gz", hash = "sha256:8730cfc92dcdbfcb10293420cafb22566d56a2af58139e8a976828b10e07c7e2", size = 23830, upload-time = "2025-12-01T16:27:05.37Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1b/2f/4b7c68c43505d5a8769cbddf4dae0069b44e7f7f1c81a32d33777bdf1448/terraform_local-0.25.0-py3-none-any.whl", hash = "sha256:769044ec37a571c0c22e4e8bda1848f45baa56ff64f4cab636ea179faac61af9", size = 16636, upload-time = "2025-12-01T16:27:04.067Z" },
+]
+
+[[package]]
+name = "tftest"
+version = "1.8.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/7a/b75e4bd761767168b868ddf6da9ff2f8237feea1725143efb21d12c90e80/tftest-1.8.5.tar.gz", hash = "sha256:4dc4cbe3dd6c89b0d8732ac5ec8d1ed27e4e3aff26374baa42af6e5c90087df8", size = 22859, upload-time = "2023-10-11T08:44:06.54Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/50/56/b17a36b14af4957f46324b693a4d42d643965e8094030e83a474245f778a/tftest-1.8.5-py3-none-any.whl", hash = "sha256:8162043ed30f80c8606a89e9fe68f68840972ea36d9c8b1e40fa27cbf463eaf3", size = 16026, upload-time = "2023-10-11T08:44:04.035Z" },
 ]
 
 [[package]]
