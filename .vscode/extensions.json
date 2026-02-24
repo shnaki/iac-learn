@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "hashicorp.terraform",
+    "tamasfe.even-better-toml",
+    "charliermarsh.ruff",
+    "amazonwebservices.aws-toolkit-vscode",
+    "eamodio.gitlens"
+  ]
+}

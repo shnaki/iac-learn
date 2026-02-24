@@ -30,11 +30,23 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python",
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true
+        },
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        }
       },
       "extensions": [
+        "ms-python.python",
         "hashicorp.terraform",
-        "ms-python.python"
+        "tamasfe.even-better-toml",
+        "charliermarsh.ruff",
+        "amazonwebservices.aws-toolkit-vscode",
+        "eamodio.gitlens"
       ]
     }
   }
