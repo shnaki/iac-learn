@@ -43,12 +43,12 @@ jobs:
           SERVICES: iam,lambda,logs,sts,ec2,ecs,ecr,stepfunctions,events
           AWS_DEFAULT_REGION: ap-northeast-1
           LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
-          LAMBDA_EXECUTOR: local
         options: >-
           --health-cmd "curl -f http://localhost:4566/_localstack/health"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
+          -v /var/run/docker.sock:/var/run/docker.sock
     steps:
       - name: Checkout
         uses: actions/checkout@v4
