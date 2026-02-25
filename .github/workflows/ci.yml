@@ -36,12 +36,13 @@ jobs:
     runs-on: ubuntu-latest
     services:
       localstack:
-        image: localstack/localstack:latest
+        image: localstack/localstack-pro:latest
         ports:
           - 4566:4566
         env:
           SERVICES: iam,lambda,logs,sts,ec2,ecs,ecr,stepfunctions,events
           AWS_DEFAULT_REGION: ap-northeast-1
+          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
         options: >-
           --health-cmd "curl -f http://localhost:4566/_localstack/health"
           --health-interval 10s
