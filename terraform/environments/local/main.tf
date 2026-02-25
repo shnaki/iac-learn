@@ -8,15 +8,15 @@ provider "aws" {
   s3_use_path_style           = true
 
   endpoints {
-    ec2           = var.localstack_endpoint
-    ecs           = var.localstack_endpoint
-    ecr           = var.localstack_endpoint
-    events        = var.localstack_endpoint
-    iam           = var.localstack_endpoint
-    lambda        = var.localstack_endpoint
-    logs          = var.localstack_endpoint
-    sfn           = var.localstack_endpoint
-    sts           = var.localstack_endpoint
+    ec2    = var.localstack_endpoint
+    ecs    = var.localstack_endpoint
+    ecr    = var.localstack_endpoint
+    events = var.localstack_endpoint
+    iam    = var.localstack_endpoint
+    lambda = var.localstack_endpoint
+    logs   = var.localstack_endpoint
+    sfn    = var.localstack_endpoint
+    sts    = var.localstack_endpoint
   }
 }
 
@@ -42,13 +42,13 @@ module "ecs_fargate" {
 }
 
 module "stepfunctions" {
-  source                = "../../modules/stepfunctions"
-  project_name          = var.project_name
-  lambda_arn            = module.lambda.function_arn
-  cluster_arn           = module.ecs_fargate.cluster_arn
-  task_definition_arn   = module.ecs_fargate.task_definition_arn
-  subnet_ids            = module.network.subnet_ids
-  security_group_ids    = module.network.security_group_ids
+  source                 = "../../modules/stepfunctions"
+  project_name           = var.project_name
+  lambda_arn             = module.lambda.function_arn
+  cluster_arn            = module.ecs_fargate.cluster_arn
+  task_definition_arn    = module.ecs_fargate.task_definition_arn
+  subnet_ids             = module.network.subnet_ids
+  security_group_ids     = module.network.security_group_ids
   ecs_execution_role_arn = module.ecs_fargate.execution_role_arn
   ecs_task_role_arn      = module.ecs_fargate.task_role_arn
 }

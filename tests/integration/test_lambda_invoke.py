@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Any
 
 import boto3
 
@@ -10,7 +11,9 @@ def _get_endpoint_url() -> str:
     return f"http://{host}"
 
 
-def test_hello_lambda_returns_expected_response() -> None:
+def test_hello_lambda_returns_expected_response(
+    terraform_outputs: dict[str, Any],
+) -> None:
     """デプロイ済み Lambda を呼び出し、期待するレスポンスを確認する。"""
     client = boto3.client(
         "lambda",
@@ -22,7 +25,7 @@ def test_hello_lambda_returns_expected_response() -> None:
     payload = {"hello": "world"}
 
     response = client.invoke(
-        FunctionName="iac-learn-hello-lambda",
+        FunctionName=terraform_outputs["lambda_function_name"],
         Payload=json.dumps(payload).encode(),
     )
 
