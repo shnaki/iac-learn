@@ -23,6 +23,12 @@ module "ecs_fargate" {
   container_image = var.fargate_image
 }
 
+module "ssm" {
+  source         = "../../modules/ssm"
+  project_name   = var.project_name
+  ssm_parameters = var.ssm_parameters
+}
+
 module "stepfunctions" {
   source                 = "../../modules/stepfunctions"
   project_name           = var.project_name

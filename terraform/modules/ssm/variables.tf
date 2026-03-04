@@ -1,15 +1,6 @@
 variable "project_name" {
-  type    = string
-  default = "iac-learn"
-}
-
-variable "aws_region" {
-  type    = string
-  default = "ap-northeast-1"
-}
-
-variable "fargate_image" {
-  type = string
+  type        = string
+  description = "プロジェクト名（タグに使用）。"
 }
 
 variable "ssm_parameters" {

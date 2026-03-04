@@ -17,3 +17,7 @@ output "ecs_task_definition_arn" {
 output "stepfunctions_state_machine_arn" {
   value = module.stepfunctions.state_machine_arn
 }
+
+output "ssm_parameter_arns" {
+  value = module.ssm.ssm_parameter_arns
+}

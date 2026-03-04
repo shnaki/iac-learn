@@ -16,6 +16,7 @@ provider "aws" {
     lambda = var.localstack_endpoint
     logs   = var.localstack_endpoint
     sfn    = var.localstack_endpoint
+    ssm = var.localstack_endpoint
     sts    = var.localstack_endpoint
   }
 }
@@ -39,6 +40,12 @@ module "ecs_fargate" {
   task_family     = "${var.project_name}-hello-fargate"
   container_name  = "hello-fargate"
   container_image = var.fargate_image
+}
+
+module "ssm" {
+  source         = "../../modules/ssm"
+  project_name   = var.project_name
+  ssm_parameters = var.ssm_parameters
 }
 
 module "stepfunctions" {

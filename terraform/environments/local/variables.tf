@@ -17,3 +17,13 @@ variable "fargate_image" {
   type    = string
   default = "iac-learn/fargate:local"
 }
+
+variable "ssm_parameters" {
+  type = map(object({
+    name  = string
+    type  = string
+    value = string
+  }))
+  description = "作成する SSM パラメータのマップ。"
+  default = {}
+}
